@@ -1,0 +1,5 @@
+args <- commandArgs(TRUE)
+library(RMySQL)
+mydb <- dbConnect(MySQL(), user = 'g1090425', password = 'group4332', dbname = 'g1090425', host = 'mydb.ics.purdue.edu')
+User_Start_Years <- fetch(dbSendQuery(mydb, "SELECT COUNT(U.User_ID) AS Users, MIN(YEAR(C.Start_Date_of_Lease)) AS Years FROM User U, Contract C WHERE U.User_ID = C.Lessee_ID OR U.User_ID = C.Owner_ID GROUP BY YEAR(C.Start_Date_of_Lease)"))
+plot(User_Start_Years$Years,User_Start_Years$Users)
